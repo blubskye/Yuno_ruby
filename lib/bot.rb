@@ -171,6 +171,34 @@ module Yuno
         cmd.integer('minutes', 'Minutes to delay (default: 5)')
       end
 
+      @client.register_application_command(:quote, 'Get a random Yuno quote~ 💕')
+
+      @client.register_application_command(:praise, 'Praise someone who deserves it~ 💖') do |cmd|
+        cmd.user('user', 'The user to praise', required: true)
+      end
+
+      @client.register_application_command(:scold, 'Scold someone being naughty~ 😤') do |cmd|
+        cmd.user('user', 'The user to scold', required: true)
+      end
+
+      @client.register_application_command(:neko, 'Get a cute neko image~ 😺')
+
+      @client.register_application_command(:urban, 'Search Urban Dictionary~ 📖') do |cmd|
+        cmd.string('term', 'The term to search for', required: true)
+      end
+
+      @client.register_application_command(:hentai, 'Get NSFW images (NSFW channels only)~ 🔞') do |cmd|
+        cmd.integer('count', 'Number of images (1-25)')
+        cmd.string('tags', 'Search tags')
+      end
+
+      @client.register_application_command(:stats, 'See Yuno\'s statistics~ 📊')
+
+      @client.register_application_command(:'set-level', 'Set a user\'s level~ ⚙️') do |cmd|
+        cmd.user('user', 'The user to modify', required: true)
+        cmd.integer('level', 'The level to set', required: true)
+      end
+
       # Slash command handlers
       setup_slash_handlers
     end
@@ -192,6 +220,15 @@ module Yuno
       @client.application_command(:'mod-stats') { |event| Commands::Moderation.slash_mod_stats(event, self) }
 
       @client.application_command(:'8ball') { |event| Commands::Fun.slash_8ball(event, self) }
+      @client.application_command(:quote) { |event| Commands::Fun.slash_quote(event, self) }
+      @client.application_command(:praise) { |event| Commands::Fun.slash_praise(event, self) }
+      @client.application_command(:scold) { |event| Commands::Fun.slash_scold(event, self) }
+      @client.application_command(:neko) { |event| Commands::Fun.slash_neko(event, self) }
+      @client.application_command(:urban) { |event| Commands::Fun.slash_urban(event, self) }
+      @client.application_command(:hentai) { |event| Commands::Fun.slash_hentai(event, self) }
+
+      @client.application_command(:stats) { |event| Commands::Utility.slash_stats(event, self) }
+      @client.application_command(:'set-level') { |event| Commands::Utility.slash_set_level(event, self) }
     end
   end
 end
